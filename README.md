@@ -1,44 +1,34 @@
-<!-- PORTFOLIO PROJECT PROFILE: maintained by the repository owner -->
+# SkyCloud Resource Core
 
-## Project profile and code-audit snapshot
+**Status: engineering beta / reusable planning core.** SkyCloud Resource Core is a TypeScript desired-state registry for bounded cloud-resource manifests. It validates and catalogs what a caller wants; it does not provision infrastructure.
 
-**What this is:** **Sky-SkyCloud** is a public repository described as: “Repository for the SkyCloud component of the Sky ecosystem.” Its dominant language signals are **No dominant programming-language extension was detected in the sampled repository tree.**.
+## Implemented
 
-**Why it has value:** Its value is best understood through the implementation evidence currently present in the repository: **6 tracked files** were observed in the shallow audit, with the source structure and existing documentation providing the project’s specific context. This README does not treat a prototype, experiment, or archive as a production system without supporting evidence.
+- resource IDs, providers, resource kinds, regions, sizes, replica counts, and tags are bounded and validated;
+- supports explicit `aws`, `azure`, `gcp`, and `local` provider labels without contacting those providers;
+- identical registrations are idempotent;
+- conflicting desired state for an existing resource ID fails closed;
+- deterministic resource listing and tag ordering;
+- every plan explicitly reports `infrastructureMutated: false`;
+- strict TypeScript, regression tests, production build, package-import smoke test, and dependency-audit CI.
 
-**Implementation evidence:** No test-related file was detected by filename heuristics.; No dependency manifest was detected.; No CI, build, Docker, or infrastructure signal was detected by the audit.; and 4 documentation or governance file(s) detected. Test filenames observed include none detected. Dependency or package files include none detected. Build, CI, or infrastructure signals include none detected.
+## Development
 
-**Current status:** The repository is tracked on the `main` branch. The existing source tree, configuration, tests, workflows, and documentation remain authoritative for supported behavior and maturity. A code audit is not a production-readiness certification, and the presence of a test or workflow file does not establish that all checks pass.
+```bash
+npm install
+npm run typecheck
+npm test
+npm run build
+```
 
-**Relationship to the wider portfolio:** This repository is one focused component of the broader Skyler Blue Spillers portfolio across AI, software engineering, cloud and DevOps, cybersecurity, blockchain, finance, education, social systems, and creative work. It may provide a service boundary, implementation pattern, experiment, archive, or reusable idea for related repositories. Treat repositories as technical dependencies only where documented interfaces and verified project requirements support that relationship.
+## SKYCOIN4444 integration
 
-**Quality and security note:** No obvious secret-like pattern was detected by the limited static scan; this is not a substitute for a security audit. No TODO/FIXME marker was detected in the scanned text files.
+Use this package as a provider-neutral desired-state boundary in front of separately reviewed Terraform, Pulumi, Kubernetes, or cloud-provider adapters. Those adapters must own credentials, IAM, plan/apply approval, secret management, drift detection, cost controls, networking, rollback, and deployment evidence.
 
----
+## Explicit limitations
 
-# Sky Skycloud
+This repository does not authenticate cloud accounts, hold provider credentials, call AWS/Azure/GCP APIs, create or delete resources, estimate or guarantee cost, verify quotas, inspect live state, run Terraform/Pulumi, enforce IAM, manage DNS/TLS, deploy applications, provide HA, or prove production infrastructure.
 
-![GitHub stars](https://img.shields.io/github/stars/skylerblue333/Sky-SkyCloud?style=flat-square)
-![GitHub license](https://img.shields.io/github/license/skylerblue333/Sky-SkyCloud?style=flat-square)
+A returned `create` plan means only that the resource is absent from this in-memory desired-state registry. It is not evidence that any infrastructure was created or can be created.
 
-## 🌟 Overview
-**Sky-SkyCloud** is a professional-grade project within the **SkyCoin4444** ecosystem. It focuses on delivering high-value solutions in the domain of **Software Development**.
-
-## 🚀 Key Features
-- **Scalable Architecture**: Designed for enterprise-level growth and performance.
-- **Modern Standards**: Implements best practices for clean code and maintainability.
-- **Robust Integration**: Built to work seamlessly within modern cloud-native environments.
-
-## 🛠️ Technology Stack
-- **Primary Domain**: Software Development
-- **Ecosystem**: SkyCoin4444 Digital Platform
-
-## 📂 Structure
-The project is organized into a modular structure to ensure clarity and ease of development.
-
-## 👨‍💻 Author
-**Skyler Blue Spillers**
-*Professional Chess Player & Software Engineer*
-
----
-*Powered by SkyCoin4444*
+See `SECURITY.md` for the operating boundary and `LICENSE` for licensing terms.
