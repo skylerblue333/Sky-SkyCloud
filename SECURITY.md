@@ -1,25 +1,20 @@
 # Security Policy
 
-## Reporting a Vulnerability
+SkyCloud Resource Core is an engineering-beta desired-state library. It is not a cloud security boundary and performs no infrastructure mutation.
 
-We take the security of our projects seriously. If you discover a security vulnerability, please report it to us immediately.
+## Current controls
 
-**Please DO NOT open a public issue.** Instead, send an email to security@innovativeit.solutions with a detailed description of the vulnerability, steps to reproduce it, and any potential impact.
+- Resource and tag inputs are bounded and validated.
+- Unknown provider/resource-kind labels are rejected.
+- Replica counts are bounded.
+- Reusing a resource ID with different desired state fails closed.
+- The library has no network or credential-handling code.
+- Returned plans explicitly report `infrastructureMutated: false`.
 
-We will acknowledge your email within 24 hours and provide a more detailed response within 48 hours. We kindly request that you do not disclose the vulnerability publicly until we have had a chance to address it.
+## Integration requirements
 
-## Security Best Practices
+Cloud credentials, workload identity, IAM/RBAC, state encryption, secret management, plan approval, provider allowlists, network policy, logging, cost controls, drift detection, backup/restore, and deployment rollback belong to the integrating infrastructure layer and must be independently reviewed and verified.
 
-We are committed to maintaining a secure environment. Our security practices include:
+Do not place passwords, API keys, private keys, account credentials, or sensitive customer data into resource IDs, regions, sizes, or tag values. Treat generated manifests as configuration metadata, not authorization to create infrastructure.
 
-*   Regular security audits and penetration testing.
-*   Dependency vulnerability scanning.
-*   Secure coding guidelines and code reviews.
-*   Implementation of industry-standard security protocols.
-*   Continuous monitoring of our systems.
-
-## Responsible Disclosure Policy
-
-We operate under a responsible disclosure policy. We appreciate security researchers who help us identify and fix vulnerabilities. We will work with you to understand and resolve the issue promptly.
-
-Thank you for helping us keep our ecosystem secure.
+Report suspected vulnerabilities through GitHub private vulnerability reporting when available. Do not publish live cloud credentials, account identifiers, Terraform state, or exploitable environment details in public issues.
